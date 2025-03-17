@@ -7,7 +7,7 @@ function ChatRoom() {
     return (
         <>
             <h1>Chat Room {id}</h1>
-            <ChatBox id={id}/>
+            {/* <ChatBox id={id}/> */}
         </>
     )
 }

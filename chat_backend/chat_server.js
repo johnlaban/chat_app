@@ -1,27 +1,27 @@
-const express = require('express');
-const { createServer } = require('node:http');
-const { Server } = require('socket.io');
+import { WebSocketServer } from 'ws';
 
-const app = express();
-const server = createServer(app);
-const io = new Server(server, {cors: {origin: "http://127.0.0.1:5173"}});
+const wss = new WebSocketServer({ port: 8080 });
 
-app.get('/', (req, res) => {
-  res.send('<h1>Hello world</h1>');
-});
+const rooms = {}
 
-io.on('connection', (socket) => {
-    console.log('a user connected: ' + socket.id);
-    socket.on('chat message', (msg) => {
-      console.log(msg)
-      io.emit('chat message', msg);
-    });
-    socket.on('disconnect', () => {
-      console.log('user disconnected: ' + socket.id);
-    });
+wss.on('connection', function connection(ws) {
+  console.log("new connection")
 
-});
+  ws.on('error', console.error);
 
-server.listen(3000, () => {
-  console.log('server running at http://localhost:3000');
+  ws.on('message', function message(data) {
+    data = JSON.parse(data)
+    const {message, key} = data;
+    if (key === "message"){
+        console.log(message)
+        ws.emit(JSON.stringify({message: message, key: "message"}))
+        wss.clients.forEach(function each(client) {
+          if (client.readyState === WebSocket.OPEN) {
+            client.send(JSON.stringify({message: message, key: "message"}));
+          }
+        });
+    }
+    console.log('received: %s', data);
+  });
+
 });
