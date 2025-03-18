@@ -1,13 +1,17 @@
-import { Route, useParams } from "react-router";
+import { useContext } from "react";
+import { useNavigate } from "react-router";
+
 import ChatBox from "../components/ChatBox";
+import { ChatContext } from "../context/ChatContext";
 
 function ChatRoom() {
-    let { id } = useParams();
+    // let { id } = useParams()
+    const { room_id } = useContext(ChatContext)
 
     return (
         <>
-            <h1>Chat Room {id}</h1>
-            {/* <ChatBox id={id}/> */}
+            <h1>Chat Room {room_id}</h1>
+            <ChatBox/>
         </>
     )
 }

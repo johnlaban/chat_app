@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
-import App from "./App";
+import Home from "./Home";
 import "./index.css"
 import Layout from "./components/Layout";
 import JoinChatRoom from "./pages/JoinChatRoom";
@@ -17,9 +17,9 @@ ReactDOM.createRoot(root!).render(
     <Layout>
       <ChatProvider>
         <Routes>
-          <Route path="/" element={<App />} />
+          <Route path="/" element={<Home />} />
           <Route path="/join" element={<JoinChatRoom />} />
-          <Route path="/room/:id" element={<ChatRoom />}/>
+          <Route path="/room" element={<ChatRoom />}/>
         </Routes>
       </ChatProvider>
     </Layout>
